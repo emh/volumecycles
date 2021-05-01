@@ -40,7 +40,7 @@
 	}
 
 	h1 {
-		font-family: 'Arial Black';
+		font-family: 'Arial Black', Arial-BoldMT;
 	    font-size: 72px;
     	line-height: 0.68em;
     	text-transform: uppercase;

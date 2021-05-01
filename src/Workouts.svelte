@@ -1,7 +1,5 @@
 <script>
-import { onDestroy } from 'svelte';
-import { xlink_attr } from 'svelte/internal';
-
+    import { onDestroy } from 'svelte';
     import { config } from './config.js';
 
     let workouts = [];
@@ -58,6 +56,25 @@ import { xlink_attr } from 'svelte/internal';
         width: 100%;
         text-align: center;
     }
+
+    .circle {
+        height: 16px;
+        width: 16px;
+        border-radius: 8px;
+        display: inline-block
+    }
+
+    .high {
+        background-color: red;
+    }
+
+    .medium {
+        background-color: yellow;
+    }
+
+    .low{
+        background-color: blue;
+    }
 </style>
 
 <table>
@@ -69,7 +86,7 @@ import { xlink_attr } from 'svelte/internal';
             <th>Sets</th>
             <th>Volume</th>
             <th>Density</th>
-            <th>Inensity</th>
+            <th>Intensity</th>
         </tr>
     </thead>
 
@@ -81,8 +98,8 @@ import { xlink_attr } from 'svelte/internal';
                 <td>{workout.reps}</td>
                 <td>{workout.sets}</td>
                 <td>{workout.volume}</td>
-                <td>{hml(workout.density)}</td>
-                <td>{hml(workout.intensity)}</td>
+                <td><span class="circle {hml(workout.density)}" title={workout.density}></span></td>
+                <td><span class="circle {hml(workout.intensity)}" title={workout.intensity}></span></td>
             </tr>
         {/each}
     </tbody>
