@@ -47,16 +47,10 @@
     	margin-top: 0;
 	    text-align: center;
 	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
 </style>
 
 <main>
-	<h1>Volume / Density Cycle Calculator</h1>
+	<h1>Volume / Density Cycle<br/>Program Generator</h1>
 
 	<div id="container">
 		<div class="builder"><Builder /></div>
