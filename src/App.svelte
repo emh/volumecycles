@@ -32,11 +32,16 @@
 
 <style>
 	#container {
-		display: flex;
+		display: grid;
+		grid-template-columns: 50% 50%;
 	}
 
-	.builder, .workouts {
-		flex: 1;
+	.builder {
+		grid-column: 1;
+	}
+
+	.workouts {
+		grid-column: 2;
 	}
 
 	h1 {

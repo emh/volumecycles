@@ -16,16 +16,16 @@
 <style>
     label, .label {
         text-transform: uppercase;
-        width: 200px;
     }
 
     .left {
+        flex: 1;
         text-align: right;
         padding-right: 4px;
     }
 
     .right {
-        flex: 1;
+        flex: 3;
     }
 
     input[type="number"] {
