@@ -34,14 +34,16 @@
 	#container {
 		display: grid;
 		grid-template-columns: 50% 50%;
+		grid-template-areas:
+			'builder workouts';
 	}
 
 	.builder {
-		grid-column: 1;
+		grid-area: builder;
 	}
 
 	.workouts {
-		grid-column: 2;
+		grid-area: workouts;
 	}
 
 	h1 {
@@ -51,6 +53,19 @@
     	text-transform: uppercase;
     	margin-top: 0;
 	    text-align: center;
+	}
+
+	@media (max-width: 700px) {
+		h1 {
+			font-size: 36px;
+		}
+
+		#container {
+			grid-template-columns: 100%;
+    		grid-template-areas:
+				'builder'
+      			'workouts';
+		}
 	}
 </style>
 

@@ -58,8 +58,8 @@
 
         border: solid 4px transparent;
         border-radius: 2px;
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
         margin: 4px;
     }
 
