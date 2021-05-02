@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export const config = writable({
+export const INITIAL_STATE = {
     weights: [ 16, 24, 32 ],
     minSets: 6,
     maxSets: 20,
@@ -8,4 +8,6 @@ export const config = writable({
     baseReps: 6,
     proportionateReps: true,
     includeDensity: true
-});
+};
+
+export const config = writable(INITIAL_STATE);

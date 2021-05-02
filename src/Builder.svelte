@@ -1,5 +1,5 @@
 <script>
-    import { config } from './config.js';
+    import { config, INITIAL_STATE } from './config.js';
 
     function handleAddWeight() {
         const n = $config.weights.length;
@@ -11,10 +11,14 @@
     function handleRemoveWeight(i) {
         config.update((c) => ({ ...c, weights: [ ...c.weights.slice(0, i), ...c.weights.slice(i + 1) ]}));
     }
+
+    function handleReset() {
+        config.set(INITIAL_STATE);
+    }
 </script>
 
 <style>
-    label, .label {
+    label, .label, button {
         text-transform: uppercase;
     }
 
@@ -72,6 +76,13 @@
             <input id="baseReps" type="number" bind:value={$config.baseReps} />
             <br/>
             <input type="checkbox" bind:checked={$config.proportionateReps} id="propReps" /> <span class="label">Proportionate to weight</span>
+        </div>
+    </div>
+
+    <div class="formElement">
+        <div class="left"></div>
+        <div class="right">
+            <button on:click={handleReset}>reset</button>
         </div>
     </div>
 </div>
