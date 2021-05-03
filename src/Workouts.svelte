@@ -2,22 +2,24 @@
     import { onDestroy } from 'svelte';
     import { config } from './config.js';
 
-    let workouts = [];
+    let volumeWorkouts = [];
+    let densityWorkouts = [];
 
     const unsubscribe = config.subscribe((c) => {
         if (!(c.minSets >= 1 && c.maxSets >= 1 && c.maxSets >= c.minSets && c.delta >= 1)) {
             return;
         }
 
-        workouts = [];
-
         let baseWeight = Math.min(...c.weights);
+
+        volumeWorkouts = [];
+        densityWorkouts = [];
 
         for (let weight of c.weights) {
             let reps = c.proportionateReps ? Math.floor(baseWeight / weight * c.baseReps) : c.baseReps;
 
             for (let sets = c.minSets; sets <= c.maxSets; sets += c.delta) {
-                workouts.push({
+                volumeWorkouts.push({
                     weight,
                     sets,
                     reps,
@@ -27,23 +29,30 @@
 
             if (c.includeDensity) {
                 for (let sets = c.maxSets - c.delta, i = 1; sets >= c.minSets; sets -= c.delta, i++) {
-                    workouts.push({
+                    const densityReps = Math.round((c.maxSets * reps) / sets);
+
+                    densityWorkouts.push({
                         weight,
                         sets,
-                        reps: reps + i,
-                        volume: weight * sets * (reps + i)
+                        reps: densityReps,
+                        volume: weight * sets * densityReps
                     });
                 }
             }
         }
 
-        workouts.sort((a, b) => a.volume !== b.volume ? a.volume - b.volume : a.weight - b.weight);
+        volumeWorkouts.sort((a, b) => a.volume !== b.volume ? a.volume - b.volume : a.weight - b.weight);
+        densityWorkouts.sort((a, b) => a.sets !== b.sets ? b.sets - a.sets : a.weight - b.weight);
     });
 
     onDestroy(unsubscribe);
 </script>
 
 <style>
+    h2 {
+        text-transform: uppercase;
+    }
+
     .workouts {
         display: flex;
         flex-flow: row wrap;
@@ -133,8 +142,9 @@
     }
 </style>
 
+<h2>Volume Cycle</h2>
 <div class="workouts">
-    {#each workouts as workout, index}
+    {#each volumeWorkouts as workout, index}
         <div class="workout w{workout.weight}kg">
             <div></div><div class="value">{workout.sets}</div><div>sets</div>
             <div>of</div><div class="value">{workout.reps}</div><div>reps</div>
@@ -143,3 +153,17 @@
         </div>
     {/each}
 </div>
+
+{#if $config.includeDensity}
+    <h2>Density Cycle</h2>
+    <div class="workouts">
+        {#each densityWorkouts as workout, index}
+            <div class="workout w{workout.weight}kg">
+                <div></div><div class="value">{workout.sets}</div><div>sets</div>
+                <div>of</div><div class="value">{workout.reps}</div><div>reps</div>
+                <div>at</div><div class="value">{workout.weight}</div><div>kg</div>
+                <div></div><div class="total value">{workout.volume}</div><div></div>
+            </div>
+        {/each}
+    </div>
+{/if}
