@@ -14,32 +14,48 @@
         let baseWeight = Math.min(...c.weights);
 
         for (let weight of c.weights) {
-            let reps = c.proportionateReps ? Math.floor(baseWeight / weight * c.baseReps) : c.baseReps;
-
+            let base_reps = c.proportionateReps ? Math.floor(baseWeight / weight * c.baseReps) : c.baseReps;
+            let max_volume = 0;
             for (let sets = c.minSets; sets <= c.maxSets; sets += c.delta) {
+                // volume cycle: Reps = base reps
+                const reps = base_reps;
+                const volume = weight * sets * reps;
                 workouts.push({
                     weight,
                     sets,
                     reps,
-                    volume: weight * sets * reps,
-                    is_volume_cycle: false
+                    volume,
+                    is_volume_cycle: true
                 });
+                max_volume = Math.max(max_volume, volume);
             }
 
             if (c.includeDensity) {
-                for (let sets = c.maxSets - c.delta, i = 1; sets >= c.minSets; sets -= c.delta, i++) {
+                for (let sets = c.maxSets - c.delta; sets >= c.minSets; sets -= c.delta) {
+                    const reps = Math.floor(max_volume/(sets * weight));
                     workouts.push({
                         weight,
                         sets,
-                        reps: reps + i,
-                        volume: weight * sets * (reps + i),
+                        reps,
+                        volume: weight * sets * reps,
                         is_volume_cycle: false
                     });
                 }
             }
         }
 
-        workouts.sort((a, b) => ! ( a.is_volume_cycle !== b.is_volume_cycle ? ! a.is_volume_cycle : a.volume !== b.volume ? a.volume - b.volume : a.weight - b.weight));
+        workouts.sort((a, b) => {
+            if (a.is_volume_cycle !== b.is_volume_cycle) {
+                return a.is_volume_cycle ? -1: 1;
+            } else {
+                if (a.is_volume_cycle) {
+                    return a.volume !== b.volume ? a.volume - b.volume : a.weight - b.weight;
+                } else {
+                    return a.reps - b.reps;
+                }
+            }
+        }
+        );
     });
 
     const hml = (v) => v > 0.67 ? 'high' : v > 0.33 ? 'medium' : 'low';
