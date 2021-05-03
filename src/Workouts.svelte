@@ -54,7 +54,7 @@
     .workout {
         display: grid;
         grid-template-columns: 33% 33% 33%;
-        grid-template-rows: 33% 33% 33%;
+        grid-template-rows: 25% 25% 25% 25%;
 
         border: solid 4px transparent;
         border-radius: 2px;
@@ -72,6 +72,10 @@
     .value {
         font-weight: 600;
         font-size: 1.5em;
+    }
+
+    .total {
+        font-size: 0.75em;
     }
 
     .w8kg, .w10kg {
@@ -137,6 +141,7 @@
             <div></div><div class="value">{workout.sets}</div><div>sets</div>
             <div>of</div><div class="value">{workout.reps}</div><div>reps</div>
             <div>at</div><div class="value">{workout.weight}</div><div>kg</div>
+            <div></div><div class="total value">{workout.volume}</div><div></div>
         </div>
     {/each}
 </div>
