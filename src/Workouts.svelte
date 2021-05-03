@@ -40,8 +40,6 @@
         workouts.sort((a, b) => a.volume !== b.volume ? a.volume - b.volume : a.weight - b.weight);
     });
 
-    const hml = (v) => v > 0.67 ? 'high' : v > 0.33 ? 'medium' : 'low';
-
     onDestroy(unsubscribe);
 </script>
 
