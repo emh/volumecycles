@@ -21,7 +21,8 @@
                     weight,
                     sets,
                     reps,
-                    volume: weight * sets * reps
+                    volume: weight * sets * reps,
+                    is_volume_cycle: false
                 });
             }
 
@@ -31,13 +32,14 @@
                         weight,
                         sets,
                         reps: reps + i,
-                        volume: weight * sets * (reps + i)
+                        volume: weight * sets * (reps + i),
+                        is_volume_cycle: false
                     });
                 }
             }
         }
 
-        workouts.sort((a, b) => a.volume !== b.volume ? a.volume - b.volume : a.weight - b.weight);
+        workouts.sort((a, b) => ! ( a.is_volume_cycle !== b.is_volume_cycle ? ! a.is_volume_cycle : a.volume !== b.volume ? a.volume - b.volume : a.weight - b.weight));
     });
 
     const hml = (v) => v > 0.67 ? 'high' : v > 0.33 ? 'medium' : 'low';
